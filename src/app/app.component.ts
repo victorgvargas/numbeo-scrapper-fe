@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from './api.service';
 import { catchError, finalize, tap } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ExpenditureOptions } from './models/expediture-options.model';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,7 @@ export class AppComponent {
   form = this._fb.group({
     city: ['', Validators.required],
     income: [0, [Validators.required, Validators.min(0)]],
+    familySize: ['single', Validators.required],
     cityRegion: ['', Validators.required]
   });
   netIncome: { result: number } | null = null;
@@ -21,16 +22,26 @@ export class AppComponent {
 
   constructor(private _fb: FormBuilder, private _apiService: ApiService) {}
 
-  onSubmit() {
-    const mapRegion = this.form.controls["cityRegion"].value === "centre" ? true : false;
+  getFamilySize() {
+    const rawValue = this.form.controls['familySize'].value;
+    const familySizeValue: 'single' | 'family' = rawValue === 'single' || rawValue === 'family' ? rawValue : 'single';
+    return familySizeValue;
+  }
 
+  getCityRegion() {
+    const rawValue = this.form.controls['cityRegion'].value;
+    const cityCentreValue: 'centre' | 'outskirts' = rawValue === 'centre' || rawValue === 'outskirts' ? rawValue : 'centre';
+    return cityCentreValue;
+  }
+
+  onSubmit() {
     this.loading = true;
     this.error = '';
     this.netIncome = null;
 
     this._apiService.getNetIncome(this.form.controls["city"].value as string,
      this.form.controls["income"].value as number,
-     mapRegion).pipe(
+     { numOfPersons: this.getFamilySize(), cityRegion: this.getCityRegion() }).pipe(
       tap(income => this.netIncome = income),
       finalize(() => this.loading = false),
       catchError(_ => this.error = "There was an error retrieving your request. Please check the information supplied")

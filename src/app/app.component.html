@@ -6,8 +6,15 @@
       <input matInput formControlName="city">
     </mat-form-field>
     <mat-form-field >
-      <mat-label>Income</mat-label>
+      <mat-label>Income (in local currency)</mat-label>
       <input matInput [OnlyNumber]="true" formControlName="income">
+    </mat-form-field>
+    <mat-form-field >
+      <mat-label>Family size</mat-label>
+      <mat-select formControlName="familySize">
+        <mat-option value="single">Single family</mat-option>
+        <mat-option value="family">Family of four</mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field >
       <mat-label>City region</mat-label>
