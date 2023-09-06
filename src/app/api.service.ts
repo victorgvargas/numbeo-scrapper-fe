@@ -14,7 +14,7 @@ export class ApiService {
 
   getNetIncome(city: string, income: number, cityCentre: boolean): Observable<{ result: number }> {
     const transformedStr = transformString(city);
-    const outskirts = cityCentre ? false : true;
+    const outskirts = !cityCentre;
 
     return this._http.get<{result: number}>(`${BASE_URL}/?city=${transformedStr}&income=${income}&city_centre=${cityCentre}&outskirts=${outskirts}`);
   }

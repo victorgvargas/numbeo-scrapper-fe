@@ -7,7 +7,7 @@
     </mat-form-field>
     <mat-form-field >
       <mat-label>Income</mat-label>
-      <input matInput formControlName="income">
+      <input matInput [OnlyNumber]="true" formControlName="income">
     </mat-form-field>
     <mat-form-field >
       <mat-label>City region</mat-label>
@@ -17,8 +17,10 @@
       </mat-select>
     </mat-form-field>
   
-    <button [style.display]="'block'" [style.margin]="'0 auto'" mat-button (click)="onSubmit()">Submit</button>
+    <button [disabled]="!form.valid" [style.display]="'block'" [style.margin]="'0 auto'" mat-button (click)="onSubmit()">Submit</button>
   </form>
   
+  <p *ngIf="loading">Loading...</p>
   <h3 *ngIf="netIncome"><strong>Net income: </strong>{{ netIncome.result | number : '1.2-2'}}</h3>
+  <h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
 </div>

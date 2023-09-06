@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from './api.service';
-import { tap } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -15,16 +16,24 @@ export class AppComponent {
     cityRegion: ['', Validators.required]
   });
   netIncome: { result: number } | null = null;
+  error = '';
+  loading = false;
 
   constructor(private _fb: FormBuilder, private _apiService: ApiService) {}
 
   onSubmit() {
-    const mapRegion = this.form.controls["cityRegion"].value === "City centre" ? true : false;
+    const mapRegion = this.form.controls["cityRegion"].value === "centre" ? true : false;
+
+    this.loading = true;
+    this.error = '';
+    this.netIncome = null;
 
     this._apiService.getNetIncome(this.form.controls["city"].value as string,
      this.form.controls["income"].value as number,
      mapRegion).pipe(
-      tap(income => this.netIncome = income)
+      tap(income => this.netIncome = income),
+      finalize(() => this.loading = false),
+      catchError(_ => this.error = "There was an error retrieving your request. Please check the information supplied")
      ).subscribe();
   }
 }

@@ -1,10 +1,11 @@
-export function transformString(city: string) {
-    for (let i = 0; i < city.length; i++) {
-        if (i === 0) city[i].toUpperCase();
-        else if(city[i - 1] === ' ') {
-            city[i].toUpperCase();
+export function transformString(city: string): string {
+    const cityArr = Array.from(city);
+
+    for (let i = 0; i < cityArr.length; i++) {
+        if (i === 0 || cityArr[i - 1] === ' ') {
+            cityArr[i] = cityArr[i].toUpperCase();
         }
     }
 
-    return city.replace(' ', '-');
+    return cityArr.join('').replace(/ /g, '-');
 }

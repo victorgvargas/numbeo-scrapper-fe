@@ -11,10 +11,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { OnlyNumber } from './directives/only-number.directive';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    OnlyNumber
   ],
   imports: [
     BrowserModule,
