@@ -17,5 +17,5 @@ export function mapExpenditureOptions(options: ExpenditureOptions) {
         }
     }
 
-    return finalObj;
+    return {...finalObj, currency: options.currency};
 }

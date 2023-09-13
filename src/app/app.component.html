@@ -1,33 +1,55 @@
 <div class="container">
   <form [formGroup]="form">
-    <h3 [style.text-align]="'center'">Insert a city to calculate your income minus possible expenses</h3>
-    <mat-form-field >
+    <h3 [style.text-align]="'center'">
+      Insert a city to calculate your income minus possible expenses
+    </h3>
+    <mat-form-field>
       <mat-label>City</mat-label>
-      <input matInput formControlName="city">
+      <input matInput formControlName="city" />
     </mat-form-field>
-    <mat-form-field >
-      <mat-label>Income (in local currency)</mat-label>
-      <input matInput [OnlyNumber]="true" formControlName="income">
+    <mat-form-field>
+      <mat-label>Income</mat-label>
+      <input matInput [OnlyNumber]="true" formControlName="income" />
     </mat-form-field>
-    <mat-form-field >
+    <mat-form-field>
+      <mat-label>Currency</mat-label>
+      <mat-select formControlName="currency">
+        <mat-option
+          *ngFor="let currency of currencies"
+          [value]="currency.code"
+          >{{ currency.code }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>Family size</mat-label>
       <mat-select formControlName="familySize">
         <mat-option value="single">Single</mat-option>
         <mat-option value="family">Family of four</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field >
+    <mat-form-field>
       <mat-label>City region</mat-label>
       <mat-select formControlName="cityRegion">
         <mat-option value="centre">City centre</mat-option>
         <mat-option value="outskirts">Outskirts</mat-option>
       </mat-select>
     </mat-form-field>
-  
-    <button [disabled]="!form.valid" [style.display]="'block'" [style.margin]="'0 auto'" mat-button (click)="onSubmit()">Submit</button>
+
+    <button
+      [disabled]="!form.valid"
+      [style.display]="'block'"
+      [style.margin]="'0 auto'"
+      mat-button
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
   </form>
-  
+
   <p *ngIf="loading">Loading...</p>
-  <h3 *ngIf="netIncome"><strong>Net income: </strong>{{ netIncome.result | number : '1.2-2'}}</h3>
+  <h3 *ngIf="netIncome">
+    <strong>Net income: </strong>{{ netIncome.result | number : "1.2-2" }}
+  </h3>
   <h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
 </div>

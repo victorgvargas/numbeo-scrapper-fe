@@ -24,10 +24,11 @@ export class ApiService {
       outskirts,
       threeBedroomCityCentre,
       threeBedroomOutskirts,
+      currency,
     } = mapExpenditureOptions(options);
 
     return this._http.get<{ result: number }>(
-      `${BASE_URL}/?city=${transformedStr}&income=${income}&city_centre=${cityCentre}&outskirts=${outskirts}&three_bedroom_city_centre=${threeBedroomCityCentre}&three_bedroom_outskirts_rent=${threeBedroomOutskirts}`
+      `${BASE_URL}/?city=${transformedStr}&income=${income}&city_centre=${cityCentre}&outskirts=${outskirts}&three_bedroom_city_centre=${threeBedroomCityCentre}&three_bedroom_outskirts_rent=${threeBedroomOutskirts}&currency=${currency}`
     );
   }
 }

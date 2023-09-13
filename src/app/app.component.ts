@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from './api.service';
 import { catchError, finalize, tap } from 'rxjs';
-import { ExpenditureOptions } from './models/expediture-options.model';
+import { CURRENCY_LIST } from './mocks/currencies';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +13,14 @@ export class AppComponent {
   form = this._fb.group({
     city: ['', Validators.required],
     income: [0, [Validators.required, Validators.min(0)]],
+    currency: ['EUR', Validators.required],
     familySize: ['single', Validators.required],
     cityRegion: ['', Validators.required]
   });
   netIncome: { result: number } | null = null;
   error = '';
   loading = false;
+  currencies = CURRENCY_LIST;
 
   constructor(private _fb: FormBuilder, private _apiService: ApiService) {}
 
@@ -41,7 +43,7 @@ export class AppComponent {
 
     this._apiService.getNetIncome(this.form.controls["city"].value as string,
      this.form.controls["income"].value as number,
-     { numOfPersons: this.getFamilySize(), cityRegion: this.getCityRegion() }).pipe(
+     { numOfPersons: this.getFamilySize(), cityRegion: this.getCityRegion(), currency: this.form.controls["currency"].value! }).pipe(
       tap(income => this.netIncome = income),
       finalize(() => this.loading = false),
       catchError(_ => this.error = "There was an error retrieving your request. Please check the information supplied")
