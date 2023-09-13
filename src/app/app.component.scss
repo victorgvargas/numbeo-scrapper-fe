@@ -4,4 +4,8 @@
     align-items: center;
     justify-content: center;
     height: 50vh;
+
+    @media (max-width: 635px) {
+        height: 100vh;
+      }
 }
