@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "numbeo-scrapper-fe:build:production"
+              "buildTarget": "numbeo-scrapper-fe:build:production"
             },
             "development": {
-              "browserTarget": "numbeo-scrapper-fe:build:development"
+              "buildTarget": "numbeo-scrapper-fe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "numbeo-scrapper-fe:build"
+            "buildTarget": "numbeo-scrapper-fe:build"
           }
         },
         "test": {
