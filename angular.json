@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/numbeo-scrapper-fe",
+            "outputPath": "dist/numbeo-scrapper-fe/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -99,6 +99,61 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/numbeo-scrapper-fe/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "numbeo-scrapper-fe:build:development",
+              "serverTarget": "numbeo-scrapper-fe:server:development"
+            },
+            "production": {
+              "browserTarget": "numbeo-scrapper-fe:build:production",
+              "serverTarget": "numbeo-scrapper-fe:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "numbeo-scrapper-fe:build:production",
+              "serverTarget": "numbeo-scrapper-fe:server:production"
+            },
+            "development": {
+              "browserTarget": "numbeo-scrapper-fe:build:development",
+              "serverTarget": "numbeo-scrapper-fe:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
