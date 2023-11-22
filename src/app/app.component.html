@@ -3,15 +3,15 @@
     Insert a city to calculate your income minus possible expenses
   </h3>
   <mat-form-field class="grid-item-1">
+    <mat-label>Income</mat-label>
+    <input matInput [OnlyNumber]="true" formControlName="income" />
+  </mat-form-field>
+  <mat-form-field class="grid-item-2">
     <mat-label>City region</mat-label>
     <mat-select formControlName="cityRegion">
       <mat-option value="centre">City centre</mat-option>
       <mat-option value="outskirts">Outskirts</mat-option>
     </mat-select>
-  </mat-form-field>
-  <mat-form-field class="grid-item-2">
-    <mat-label>Income</mat-label>
-    <input matInput [OnlyNumber]="true" formControlName="income" />
   </mat-form-field>
   <mat-form-field class="grid-item-3">
     <mat-label>Currency</mat-label>
@@ -45,8 +45,12 @@
   </button>
 </form>
 
-<p *ngIf="loading">Loading...</p>
-<h3 *ngIf="netIncome">
-  <strong>Net income: </strong>{{ netIncome.result | number : "1.2-2" }}
-</h3>
-<h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
+<div class="results">
+  <p *ngIf="loading">Loading...</p>
+  <h3 *ngIf="netIncome">
+    <strong>Net income: </strong>{{ netIncome.result | number : "1.2-2" }}
+  </h3>
+  <h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
+</div>
+
+<app-history-table *ngIf="data" [data]="data"></app-history-table>
