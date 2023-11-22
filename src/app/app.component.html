@@ -53,4 +53,4 @@
   <h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
 </div>
 
-<app-history-table *ngIf="data" [data]="data"></app-history-table>
+<app-history-table *ngIf="data.length > 0" [data]="data"></app-history-table>
