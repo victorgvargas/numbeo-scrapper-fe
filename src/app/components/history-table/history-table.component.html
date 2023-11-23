@@ -2,35 +2,35 @@
   <p>
     <strong>History</strong>
   </p>
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table matSort [dataSource]="dataSource">
     <ng-container matColumnDef="budget">
-      <th mat-header-cell *matHeaderCellDef>Net Budget</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Net Budget</th>
       <td mat-cell *matCellDef="let element">
         {{ element.budget | number : "1.2-2" }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="currency">
-      <th mat-header-cell *matHeaderCellDef>Currency</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Currency</th>
       <td mat-cell *matCellDef="let element">{{ element.currency }}</td>
     </ng-container>
 
     <ng-container matColumnDef="region">
-      <th mat-header-cell *matHeaderCellDef>Region</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
       <td mat-cell *matCellDef="let element">
         {{ element.region | titlecase }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="familySize">
-      <th mat-header-cell *matHeaderCellDef>Family Size</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Family Size</th>
       <td mat-cell *matCellDef="let element">
         {{ element.familySize | titlecase }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="city">
-      <th mat-header-cell *matHeaderCellDef>City</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
       <td mat-cell *matCellDef="let element">{{ element.city }}</td>
     </ng-container>
 

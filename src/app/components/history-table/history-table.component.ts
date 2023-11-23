@@ -11,6 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 export interface NetBudgetRecord {
   id: string;
@@ -24,7 +25,7 @@ export interface NetBudgetRecord {
 @Component({
   selector: 'app-history-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule],
   templateUrl: './history-table.component.html',
   styleUrl: './history-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +33,7 @@ export interface NetBudgetRecord {
 export class HistoryTableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data: NetBudgetRecord[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   displayedColumns = ['budget', 'currency', 'region', 'familySize', 'city'];
   dataSource!: MatTableDataSource<NetBudgetRecord>;
 
@@ -50,5 +52,6 @@ export class HistoryTableComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 }
