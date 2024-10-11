@@ -5,8 +5,8 @@ import { transformString } from './utils/transform-string';
 import { ExpenditureOptions } from './models/expediture-options.model';
 import { mapExpenditureOptions } from './utils/map-expenditure-options';
 
-// const BASE_URL = 'https://numbeo-scrapper.onrender.com';
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'https://numbeo-scrapper.onrender.com';
+// const BASE_URL = 'http://localhost:5000';
 
 @Injectable({
   providedIn: 'root',
