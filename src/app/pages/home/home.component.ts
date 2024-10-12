@@ -13,6 +13,9 @@ import { HistoryService } from 'src/app/services/history.service';
 import { catchError, finalize, tap } from 'rxjs';
 import { v4 } from 'uuid';
 import { OnlyNumber } from 'src/app/directives/only-number.directive';
+import { Store } from '@ngrx/store';
+import { HistoryActions } from 'store/history/actions/history.actions';
+import { selectHistory } from 'store/history/selectors/history.selectors';
 
 
 @Component({
@@ -49,7 +52,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _apiService: ApiService,
-    private _historyService: HistoryService
+    private _historyService: HistoryService,
+    private _store: Store
   ) {}
 
   ngOnInit(): void {
@@ -71,9 +75,15 @@ export class HomeComponent implements OnInit {
   }
 
   getTableData() {
-    const storage = { ...localStorage };
-
-    this.data = [...Object.values(storage).map((str) => JSON.parse(str))];
+    this._store.dispatch(HistoryActions.loadHistory());
+    this._store.select(selectHistory).subscribe((data) => {
+      if (data) {
+        console.log('data', data);
+        this.data = data;
+      } else {
+        console.log('History data is still undefined or not loaded.');
+      }
+    });
   }
 
   onSubmit() {
@@ -103,7 +113,7 @@ export class HomeComponent implements OnInit {
       .pipe(
         tap((income) => (this.netIncome = income)),
         tap(() =>
-          this._historyService.setItem({
+          this._historyService.setItemInLocalStorage({
             ...netBudgetRecord,
             budget: this.netIncome?.result as number,
           })

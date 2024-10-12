@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
       .pipe(
         tap((income) => (this.netIncome = income)),
         tap(() =>
-          this._historyService.setItem({
+          this._historyService.setItemInLocalStorage({
             ...netBudgetRecord,
             budget: this.netIncome?.result as number,
           })
