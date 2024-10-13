@@ -9,6 +9,12 @@ export const HistoryActions = createActionGroup({
     'Load History': emptyProps(),
     'Load History Success': props<{ data: NetBudgetRecord[] }>(),
     'Load History Failure': props<{ error: ApiFetchError}>(),
+    'Edit History': props<{ id: string, changes: Partial<NetBudgetRecord> }>(),
+    'Edit History Success': props<{ id: string, changes: Partial<NetBudgetRecord> }>(),
+    'Edit History Failure': props<{ id: string, error: ApiFetchError }>(),
+    'Delete History': props<{ id: string }>(),
+    'Delete History Success': props<{ id: string }>(),
+    'Delete History Failure': props<{ id: string, error: ApiFetchError }>(),
     'Clear History': emptyProps(),
   }
 }

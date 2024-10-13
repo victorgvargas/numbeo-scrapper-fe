@@ -24,5 +24,19 @@ export const historyReducer = createReducer(
     ...state,
     history: [],
   })),
+  on(HistoryActions.editHistorySuccess, (state, { id, changes }) => ({
+    ...state,
+    history: state.history.map((record) => (record.id === id ? { ...record, ...changes } : record)),
+  })),
+  on(HistoryActions.editHistoryFailure, (state) => ({
+    ...state,
+  })),
+  on(HistoryActions.deleteHistorySuccess, (state, { id }) => ({
+    ...state,
+    history: state.history.filter((record) => record.id !== id),
+  })),
+  on(HistoryActions.deleteHistoryFailure, (state) => ({
+    ...state,
+  }))
 );
 

@@ -9,6 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -28,7 +29,7 @@ export interface NetBudgetRecord {
 @Component({
   selector: 'app-history-table',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatTableModule, MatPaginatorModule, MatSortModule],
   templateUrl: './history-table.component.html',
   styleUrl: './history-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +38,7 @@ export class HistoryTableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data: NetBudgetRecord[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns = ['budget', 'currency', 'region', 'familySize', 'city'];
+  displayedColumns = ['budget', 'currency', 'region', 'familySize', 'city', 'actions'];
   dataSource!: MatTableDataSource<NetBudgetRecord>;
 
   constructor(private _store: Store) {}
@@ -47,8 +48,6 @@ export class HistoryTableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
-
     if (changes['data'] && this.dataSource) {
       this.dataSource.data = [...this.data];
       if (this.paginator) {
@@ -64,7 +63,16 @@ export class HistoryTableComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
+  editElement(element: NetBudgetRecord): void {
+    this._store.dispatch(HistoryActions.editHistory({ id: element.id, changes: element }));
+  }
+
+  deleteElement(element: NetBudgetRecord): void {
+    this._store.dispatch(HistoryActions.deleteHistory({ id: element.id }));
+  }
+
   clearHistory(): void {
+    localStorage.clear();
     this._store.dispatch(HistoryActions.clearHistory());
   }
 }

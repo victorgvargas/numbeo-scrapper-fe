@@ -19,6 +19,30 @@ export class HistoryEffects {
     )
   );
 
+  editHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(HistoryActions.editHistory),
+      mergeMap(({ id, changes }) =>
+        this.historyService.updateItemInLocalStorage(id, changes).pipe(
+          map(() => HistoryActions.editHistorySuccess({ id, changes })),
+          catchError(() => of(HistoryActions.editHistoryFailure({ id, error: "ApiFetchError" })))
+        )
+      )
+    )
+  );
+
+  deleteHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(HistoryActions.deleteHistory),
+      mergeMap(({ id }) =>
+        this.historyService.deleteItemFromLocalStorage(id).pipe(
+          map(() => HistoryActions.deleteHistorySuccess({ id })),
+          catchError(() => of(HistoryActions.deleteHistoryFailure({ id, error: "ApiFetchError" })))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private historyService: HistoryService

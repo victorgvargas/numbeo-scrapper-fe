@@ -78,7 +78,6 @@ export class HomeComponent implements OnInit {
     this._store.dispatch(HistoryActions.loadHistory());
     this._store.select(selectHistory).subscribe((data) => {
       if (data) {
-        console.log('data', data);
         this.data = data;
       } else {
         console.log('History data is still undefined or not loaded.');

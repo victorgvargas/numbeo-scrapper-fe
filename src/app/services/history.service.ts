@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NetBudgetRecord } from '../components/history-table/history-table.component';
 import { Store } from '@ngrx/store';
-import { HistoryActions } from 'store/history/actions/history.actions';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -32,6 +31,18 @@ export class HistoryService {
       }
     }
     return of(records);
+  }
+
+  updateItemInLocalStorage(id: string, changes: Partial<NetBudgetRecord>) {
+    const record = this.getItemFromLocalStorage(id);
+    const updatedRecord = { ...record, ...changes };
+    localStorage.setItem(id, JSON.stringify(updatedRecord));
+    return of(updatedRecord);
+  }
+
+  deleteItemFromLocalStorage(id: string) {
+    localStorage.removeItem(id);
+    return of(id);
   }
 
   /** ******************************************************************* */
