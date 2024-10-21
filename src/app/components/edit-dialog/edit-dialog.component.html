@@ -1,8 +1,8 @@
 <div mat-dialog-content>
     <form [formGroup]="editForm">
         <mat-form-field>
-            <input matInput placeholder="Name" formControlName="budget">
-            <mat-error *ngIf="editForm.controls['budget'].hasError('required')">
+            <input matInput placeholder="Income" formControlName="income">
+            <mat-error *ngIf="editForm.controls['income'].hasError('required')">
                 Budget is <strong>required</strong>
             </mat-error>
         </mat-form-field>
@@ -37,5 +37,5 @@
 
 <div mat-dialog-actions>
     <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-button [mat-dialog-close]="editForm.value" [disabled]="!editForm.valid">Save</button>
+    <button mat-button (click)="save()" [disabled]="!editForm.valid">Save</button>
 </div>

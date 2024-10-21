@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HistoryTableComponent, NetBudgetRecord } from '../../components/history-table/history-table.component';
 import { CURRENCY_LIST } from 'src/app/mocks/currencies';
-import { ApiService } from 'src/app/api.service';
+import { ApiService } from 'src/app/services/api.service';
 import { HistoryService } from 'src/app/services/history.service';
 import { catchError, finalize, tap } from 'rxjs';
 import { v4 } from 'uuid';
@@ -92,6 +92,7 @@ export class HomeComponent implements OnInit {
 
     const netBudgetRecord: NetBudgetRecord = {
       id: v4(),
+      income: this.form.controls['income'].value as number,
       budget: 0,
       currency: this.form.controls['currency'].value as string,
       region: this.getCityRegion(),

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { transformString } from './utils/transform-string';
-import { ExpenditureOptions } from './models/expediture-options.model';
-import { mapExpenditureOptions } from './utils/map-expenditure-options';
+import { transformString } from '../utils/transform-string';
+import { ExpenditureOptions } from '../models/expediture-options.model';
+import { mapExpenditureOptions } from '../utils/map-expenditure-options';
 
 const BASE_URL = 'https://numbeo-scrapper.onrender.com';
 // const BASE_URL = 'http://localhost:5000';
