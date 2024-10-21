@@ -1,0 +1,18 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.dialog-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    flex-grow: 1;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
