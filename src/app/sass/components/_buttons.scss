@@ -1,0 +1,18 @@
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: $font-family-base;
+    background-color: $primary-color;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  
+    @include box-shadow;
+  
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+}
+  

@@ -10,7 +10,7 @@ import { HistoryTableComponent, NetBudgetRecord } from '../../components/history
 import { CURRENCY_LIST } from 'src/app/mocks/currencies';
 import { ApiService } from 'src/app/services/api.service';
 import { HistoryService } from 'src/app/services/history.service';
-import { catchError, finalize, tap } from 'rxjs';
+import { catchError, finalize, map, Observable, startWith, tap } from 'rxjs';
 import { v4 } from 'uuid';
 import { OnlyNumber } from 'src/app/directives/only-number.directive';
 import { Store } from '@ngrx/store';
@@ -18,7 +18,8 @@ import { HistoryActions } from 'store/history/actions/history.actions';
 import { selectHistory } from 'store/history/selectors/history.selectors';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import citiesData from '../../../assets/cities.json';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,7 @@ import { FooterComponent } from 'src/app/components/footer/footer.component';
   imports: [
     CommonModule,
     HttpClientModule,
+    MatAutocompleteModule,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
@@ -51,7 +53,9 @@ export class HomeComponent implements OnInit {
   error = '';
   loading = false;
   currencies = CURRENCY_LIST;
+  cities = citiesData.cities;
   data: NetBudgetRecord[] = [];
+  filteredCities: Observable<string[]> | undefined;
 
   constructor(
     private _fb: FormBuilder,
@@ -62,6 +66,15 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTableData();
+    this.filteredCities = this.form.controls['city'].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value as string))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.cities.filter((city) => city.toLowerCase().includes(filterValue));
   }
 
   getFamilySize() {
