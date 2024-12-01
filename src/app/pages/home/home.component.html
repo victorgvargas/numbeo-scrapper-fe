@@ -1,57 +1,65 @@
-<form [formGroup]="form" class="grid">
-    <h3 class="grid-item-0">
-      Insert a city to calculate your income minus possible expenses
-    </h3>
-    <mat-form-field class="grid-item-1">
-      <mat-label>Income</mat-label>
-      <input matInput [OnlyNumber]="true" formControlName="income" />
-    </mat-form-field>
-    <mat-form-field class="grid-item-2">
-      <mat-label>City region</mat-label>
-      <mat-select formControlName="cityRegion">
-        <mat-option value="centre">City centre</mat-option>
-        <mat-option value="outskirts">Outskirts</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="grid-item-3">
-      <mat-label>Currency</mat-label>
-      <mat-select formControlName="currency">
-        <mat-option *ngFor="let currency of currencies" [value]="currency.code">{{
-          currency.code
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="grid-item-4">
-      <mat-label>Family size</mat-label>
-      <mat-select formControlName="familySize">
-        <mat-option value="single">Single</mat-option>
-        <mat-option value="family">Family of four</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="grid-item-5">
-      <mat-label>City</mat-label>
-      <input matInput formControlName="city" />
-    </mat-form-field>
+<div class="wrapper">
+  <app-header title="Cities Cost of Living Calculator"></app-header>
   
-    <button
-      [disabled]="!form.valid"
-      [style.display]="'block'"
-      [style.margin]="'0 auto'"
-      mat-button
-      (click)="onSubmit()"
-      class="grid-item-6"
-    >
-      Submit
-    </button>
-  </form>
-  
-  <div class="results">
-    <p *ngIf="loading">Loading...</p>
-    <h3 *ngIf="netIncome">
-      <strong>Net income: </strong>{{ netIncome.result | number : "1.2-2" }}
-    </h3>
-    <h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
-  </div>
-  
-  <app-history-table *ngIf="data.length > 0" [data]="data"></app-history-table>
-  
+  <main class="content">
+    <form [formGroup]="form" class="grid">
+      <h2 class="grid-item-0">
+        Insert a city to calculate your income minus possible expenses
+      </h2>
+      <mat-form-field class="grid-item-1">
+        <mat-label>Income</mat-label>
+        <input matInput [OnlyNumber]="true" formControlName="income" />
+      </mat-form-field>
+      <mat-form-field class="grid-item-2">
+        <mat-label>City region</mat-label>
+        <mat-select formControlName="cityRegion">
+          <mat-option value="centre">City centre</mat-option>
+          <mat-option value="outskirts">Outskirts</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="grid-item-3">
+        <mat-label>Currency</mat-label>
+        <mat-select formControlName="currency">
+          <mat-option *ngFor="let currency of currencies" [value]="currency.code">{{
+            currency.code
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="grid-item-4">
+        <mat-label>Family size</mat-label>
+        <mat-select formControlName="familySize">
+          <mat-option value="single">Single</mat-option>
+          <mat-option value="family">Family of four</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="grid-item-5">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" />
+      </mat-form-field>
+    
+      <button
+        [disabled]="!form.valid"
+        [style.display]="'block'"
+        [style.margin]="'0 auto'"
+        mat-button
+        (click)="onSubmit()"
+        class="grid-item-6"
+      >
+        Submit
+      </button>
+    </form>
+    
+    <div class="results">
+      <p *ngIf="loading">Loading...</p>
+      <h3 *ngIf="netIncome">
+        <strong>Net income: </strong>{{ netIncome.result | number : "1.2-2" }}
+      </h3>
+      <h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
+    </div>
+    
+    <app-history-table *ngIf="data.length > 0" [data]="data"></app-history-table>
+  </main>
+</div>
+
+
+<app-footer></app-footer>

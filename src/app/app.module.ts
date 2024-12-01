@@ -14,6 +14,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { HistoryEffects } from '../../store/history/effects/history.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { historyKey } from 'store/history/selectors/history.selectors';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { historyKey } from 'store/history/selectors/history.selectors';
     }),
     EffectsModule.forFeature([HistoryEffects]),
     EffectsModule.forRoot([]),
+    FontAwesomeModule,
   ],
 })
 export class AppModule {}

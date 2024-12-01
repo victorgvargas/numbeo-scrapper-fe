@@ -1,0 +1,12 @@
+.footer {
+    margin-top: 0;
+    font-size: 0.9rem;
+    padding: 1rem 1rem;
+    text-align: center;
+    background-color: darken($primary-color, 10%);
+
+    h2 {
+        color: $border-color;
+    }
+}
+  

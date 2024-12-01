@@ -16,6 +16,8 @@ import { OnlyNumber } from 'src/app/directives/only-number.directive';
 import { Store } from '@ngrx/store';
 import { HistoryActions } from 'store/history/actions/history.actions';
 import { selectHistory } from 'store/history/selectors/history.selectors';
+import { HeaderComponent } from 'src/app/components/header/header.component';
+import { FooterComponent } from 'src/app/components/footer/footer.component';
 
 
 @Component({
@@ -28,7 +30,9 @@ import { selectHistory } from 'store/history/selectors/history.selectors';
     MatSelectModule,
     MatInputModule,
     MatButtonModule,
+    FooterComponent,
     HistoryTableComponent,
+    HeaderComponent,
     ReactiveFormsModule,
     OnlyNumber
   ],

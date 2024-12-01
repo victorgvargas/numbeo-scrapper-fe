@@ -1,0 +1,12 @@
+// Flex Centering
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+// Box Shadow
+@mixin box-shadow($color: $shadow-color) {
+    box-shadow: 0 4px 10px $color;
+}
+  
