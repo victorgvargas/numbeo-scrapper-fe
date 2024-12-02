@@ -15,10 +15,11 @@ import { HistoryEffects } from '../../store/history/effects/history.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { historyKey } from 'store/history/selectors/history.selectors';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [AppComponent],
-  providers: [provideClientHydration()],
+  providers: [provideClientHydration(), provideCharts(withDefaultRegisterables())],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,

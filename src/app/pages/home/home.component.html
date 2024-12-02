@@ -56,15 +56,18 @@
     
     <div class="results">
       <p *ngIf="loading">Loading...</p>
-      <h3 *ngIf="netIncome">
-        <strong>Net income: </strong>{{ netIncome.result | number : "1.2-2" }}
-      </h3>
+      <ng-container *ngIf="requests$ | async">
+        <h3>
+          <strong>Net income: </strong>{{ netIncome?.result | number : "1.2-2" }}
+        </h3>
+
+        <app-costs-details [datasets]="costsStructure!.datasets" [labels]="costsStructure!.labels" ></app-costs-details>
+      </ng-container>
       <h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
     </div>
     
     <app-history-table *ngIf="data.length > 0" [data]="data"></app-history-table>
   </main>
 </div>
-
 
 <app-footer></app-footer>
