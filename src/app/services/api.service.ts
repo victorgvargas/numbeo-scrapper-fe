@@ -39,7 +39,7 @@ export class ApiService {
     const transformedStr = transformString(budgetRecord.city);
 
     return this._http.get<CostsStructure>(
-      `${BASE_URL}/costs?city=${transformedStr}?currency=${budgetRecord.currency}`
+      `${BASE_URL}/costs?city=${transformedStr}&currency=${budgetRecord.currency}`
     );
   }
 }
