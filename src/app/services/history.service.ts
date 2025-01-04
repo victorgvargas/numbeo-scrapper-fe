@@ -26,13 +26,19 @@ export class HistoryService {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key) {
-        const record = JSON.parse(localStorage.getItem(key) as string) as NetBudgetRecord;
-        records.push(record);
+        try {
+          const record = JSON.parse(localStorage.getItem(key) as string) as NetBudgetRecord;
+          records.push(record);
+        } catch (error) {
+          console.warn(`Invalid JSON for key "${key}":`, error);
+          // Optionally remove invalid entry:
+          localStorage.removeItem(key);
+        }
       }
     }
     return of(records);
   }
-
+  
   updateItemInLocalStorage(id: string, changes: Partial<NetBudgetRecord>) {
     const record = this.getItemFromLocalStorage(id);
     const updatedRecord = { ...record, ...changes };

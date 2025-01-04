@@ -108,8 +108,8 @@ export class HomeComponent implements OnInit {
     const datasets: ChartDataset<"pie", number[]>[] = [
       {
         data: [finalCosts.costs, finalCosts.rent],
-        backgroundColor: ['#FF6384', '#36A2EB'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB'],
+        backgroundColor: ['#39898f', '#6C757D'],
+        hoverBackgroundColor: ['#39898f', '#6C757D'],
       },
     ];
 
@@ -138,7 +138,7 @@ export class HomeComponent implements OnInit {
       if (data) {
         this.data = data;
       } else {
-        console.log('History data is still undefined or not loaded.');
+        console.error('History data is still undefined or not loaded.');
       }
     });
   }
