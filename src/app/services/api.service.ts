@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { transformString } from '../utils/transform-string';
 import { ExpenditureOptions } from '../models/expediture-options.model';
@@ -7,8 +7,9 @@ import { mapExpenditureOptions } from '../utils/map-expenditure-options';
 import { CostsStructure } from '../models/costs-structure.model';
 import { NetBudgetRecord } from '../components/history-table/history-table.component';
 import { environment } from 'src/environment/environment';
+import { environment as environmentProd } from 'src/environment/environment.prod';
 
-const BASE_URL = environment.apiUrl;
+const BASE_URL = isDevMode() ? environment.apiUrl : environmentProd.apiUrl;
 
 @Injectable({
   providedIn: 'root',
