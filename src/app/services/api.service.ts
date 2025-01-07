@@ -6,9 +6,9 @@ import { ExpenditureOptions } from '../models/expediture-options.model';
 import { mapExpenditureOptions } from '../utils/map-expenditure-options';
 import { CostsStructure } from '../models/costs-structure.model';
 import { NetBudgetRecord } from '../components/history-table/history-table.component';
+import { environment } from 'src/environment/environment';
 
-// const BASE_URL = 'https://numbeo-scrapper.onrender.com';
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root',
