@@ -9,7 +9,7 @@ import { NetBudgetRecord } from '../components/history-table/history-table.compo
 import { environment } from 'src/environment/environment';
 import { environment as environmentProd } from 'src/environment/environment.prod';
 
-const BASE_URL = isDevMode() ? environment.apiUrl : environmentProd.apiUrl;
+export const BASE_URL = isDevMode() ? environment.apiUrl : environmentProd.apiUrl;
 
 @Injectable({
   providedIn: 'root',
