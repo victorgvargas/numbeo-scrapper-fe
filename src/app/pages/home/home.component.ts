@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
     private _historyService: HistoryService,
     private _store: Store
   ) {}
-
+  
   ngOnInit(): void {
     this.getTableData();
     this.filteredCities = this.form.controls['city'].valueChanges.pipe(
@@ -151,6 +151,7 @@ export class HomeComponent implements OnInit {
     const netBudgetRecord: NetBudgetRecord = {
       id: v4(),
       income: this.form.controls['income'].value as number,
+      costs: 0,
       budget: 0,
       currency: this.form.controls['currency'].value as string,
       region: this.getCityRegion(),

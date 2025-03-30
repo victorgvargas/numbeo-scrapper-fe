@@ -23,6 +23,7 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 export interface NetBudgetRecord {
   id: string;
   income: number;
+  costs: number;
   budget: number;
   currency: string;
   region: 'centre' | 'outskirts';
@@ -42,7 +43,7 @@ export class HistoryTableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data: NetBudgetRecord[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns = ['income', 'budget', 'currency', 'region', 'familySize', 'city', 'actions'];
+  displayedColumns = ['income', 'costs', 'budget', 'currency', 'region', 'familySize', 'city', 'actions'];
   dataSource!: MatTableDataSource<NetBudgetRecord>;
   readonly dialog = inject(MatDialog);
 

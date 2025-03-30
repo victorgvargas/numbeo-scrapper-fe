@@ -10,6 +10,13 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="costs">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Costs</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.costs | number : "1.2-2" }}
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="budget">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Net Budget</th>
       <td mat-cell *matCellDef="let element">
