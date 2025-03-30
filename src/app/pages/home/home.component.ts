@@ -164,7 +164,11 @@ export class HomeComponent implements OnInit {
      */
     const costs$ = this._apiService.getCosts(netBudgetRecord).pipe(
       tap((costs) => console.log(costs)),
-      tap(costs => this.costsStructure = { ...this._mapResponseToChartStructure(costs, netBudgetRecord) }),
+      tap(costs => {
+        this.costsStructure = { ...this._mapResponseToChartStructure(costs, netBudgetRecord) };
+        netBudgetRecord.costs = netBudgetRecord.familySize === 'single' ? costs.single_person_cost : costs.family_of_four_cost;
+        netBudgetRecord.costs += netBudgetRecord.region === 'centre' ? costs.centre_rent : costs.outskirts_rent;
+      }),
     );
 
     const netIncome$ = this._apiService
@@ -179,11 +183,13 @@ export class HomeComponent implements OnInit {
       )
       .pipe(
         tap((income) => (this.netIncome = income)),
-        tap(() =>
+        tap(() =>{
+          console.log(netBudgetRecord);
           this._historyService.setItemInLocalStorage({
             ...netBudgetRecord,
             budget: this.netIncome?.result as number,
           })
+        }
         ),
         tap(() => this.getTableData()),
         finalize(() => (this.loading = false)),

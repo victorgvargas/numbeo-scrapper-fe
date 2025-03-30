@@ -43,7 +43,7 @@ export class HistoryTableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data: NetBudgetRecord[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns = ['income', 'costs', 'budget', 'currency', 'region', 'familySize', 'city', 'actions'];
+  displayedColumns = ['city', 'income', 'costs', 'budget', 'currency', 'region', 'familySize',  'actions'];
   dataSource!: MatTableDataSource<NetBudgetRecord>;
   readonly dialog = inject(MatDialog);
 
