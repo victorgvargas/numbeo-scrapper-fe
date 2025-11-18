@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class HistoryService {
-  constructor(private _store: Store) {}
+  constructor(private _store: Store) { }
 
   /**
    * Local storage session - to be removed as soon as api is ready
@@ -19,7 +19,7 @@ export class HistoryService {
 
   getItemFromLocalStorage(id: string) {
     return JSON.parse(localStorage.getItem(id) as string);
-  }  
+  }
 
   getAllItemsFromLocalStorage(): Observable<NetBudgetRecord[]> {
     const records: NetBudgetRecord[] = [];
@@ -38,7 +38,7 @@ export class HistoryService {
     }
     return of(records);
   }
-  
+
   updateItemInLocalStorage(id: string, changes: Partial<NetBudgetRecord>) {
     const record = this.getItemFromLocalStorage(id);
     const updatedRecord = { ...record, ...changes };

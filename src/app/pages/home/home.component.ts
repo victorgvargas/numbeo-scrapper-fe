@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,7 +10,7 @@ import { HistoryTableComponent, NetBudgetRecord } from '../../components/history
 import { CURRENCY_LIST } from 'src/app/mocks/currencies';
 import { ApiService } from 'src/app/services/api.service';
 import { HistoryService } from 'src/app/services/history.service';
-import { catchError, finalize, forkJoin, map, Observable, startWith, tap } from 'rxjs';
+import { catchError, finalize, forkJoin, map, Observable, startWith, Subject, takeUntil, tap } from 'rxjs';
 import { v4 } from 'uuid';
 import { OnlyNumber } from 'src/app/directives/only-number.directive';
 import { Store } from '@ngrx/store';
@@ -45,7 +45,7 @@ import { ChartDataset } from 'chart.js';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   form = this._fb.group({
     city: ['', Validators.required],
     income: [0, [Validators.required, Validators.min(0)]],
@@ -60,22 +60,45 @@ export class HomeComponent implements OnInit {
   cities = citiesData.cities;
   data: NetBudgetRecord[] = [];
   filteredCities: Observable<string[]> | undefined;
-  costsStructure: {datasets: ChartDataset<"pie", number[]>[], labels: string[]} | undefined;
+  costsStructure: { datasets: ChartDataset<"pie", number[]>[], labels: string[] } | undefined;
   requests$: Observable<any> | undefined;
+  destroy$ = new Subject<void>();
+  showResults = true;
 
   constructor(
     private _fb: FormBuilder,
     private _apiService: ApiService,
     private _historyService: HistoryService,
     private _store: Store
-  ) {}
-  
+  ) { }
+
   ngOnInit(): void {
     this.getTableData();
+
+    // Listen to store changes instead of localStorage changes
+    this._store.select(selectHistory).pipe(
+      tap((data) => {
+        this.data = data || [];
+        if (this.data.length === 0) {
+          this.showResults = false;
+          // Clear chart data and results when history is cleared
+          this.costsStructure = undefined;
+          this.netIncome = null;
+          this.requests$ = undefined;
+        }
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+
     this.filteredCities = this.form.controls['city'].valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value as string))
     );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private _filter(value: string): string[] {
@@ -83,9 +106,9 @@ export class HomeComponent implements OnInit {
     return this.cities.filter((city) => city.toLowerCase().includes(filterValue));
   }
 
-  private _mapResponseToChartStructure(costs: CostsStructure, budgetRecord: NetBudgetRecord): {datasets: ChartDataset<"pie", number[]>[], labels: string[]} {
+  private _mapResponseToChartStructure(costs: CostsStructure, budgetRecord: NetBudgetRecord): { datasets: ChartDataset<"pie", number[]>[], labels: string[] } {
     const { familySize, region } = budgetRecord;
-    const finalCosts: { costs: number, rent: number } = {costs: 0, rent: 0};
+    const finalCosts: { costs: number, rent: number } = { costs: 0, rent: 0 };
 
     if (familySize === 'single') {
       finalCosts['costs'] = costs.single_person_cost;
@@ -134,13 +157,6 @@ export class HomeComponent implements OnInit {
 
   getTableData() {
     this._store.dispatch(HistoryActions.loadHistory());
-    this._store.select(selectHistory).subscribe((data) => {
-      if (data) {
-        this.data = data;
-      } else {
-        console.error('History data is still undefined or not loaded.');
-      }
-    });
   }
 
   onSubmit() {
@@ -159,11 +175,7 @@ export class HomeComponent implements OnInit {
       city: this.form.controls['city'].value as string,
     };
 
-    /**
-     * Remove this after testing
-     */
     const costs$ = this._apiService.getCosts(netBudgetRecord).pipe(
-      tap((costs) => console.log(costs)),
       tap(costs => {
         this.costsStructure = { ...this._mapResponseToChartStructure(costs, netBudgetRecord) };
         netBudgetRecord.costs = netBudgetRecord.familySize === 'single' ? costs.single_person_cost : costs.family_of_four_cost;
@@ -183,8 +195,7 @@ export class HomeComponent implements OnInit {
       )
       .pipe(
         tap((income) => (this.netIncome = income)),
-        tap(() =>{
-          console.log(netBudgetRecord);
+        tap(() => {
           this._historyService.setItemInLocalStorage({
             ...netBudgetRecord,
             budget: this.netIncome?.result as number,
@@ -195,11 +206,12 @@ export class HomeComponent implements OnInit {
         finalize(() => (this.loading = false)),
         catchError(
           () =>
-            (this.error =
-              'There was an error retrieving your request. Please check the information supplied')
+          (this.error =
+            'There was an error retrieving your request. Please check the information supplied')
         )
       );
 
+    this.showResults = true;
     this.requests$ = forkJoin([costs$, netIncome$]);
   }
 }

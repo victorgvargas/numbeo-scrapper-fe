@@ -1,6 +1,6 @@
 <div class="wrapper">
   <app-header title="Cities Cost of Living Calculator"></app-header>
-  
+
   <main class="content">
     <form [formGroup]="form" class="grid">
       <h2 class="grid-item-0">
@@ -22,7 +22,7 @@
         <mat-select formControlName="currency">
           <mat-option *ngFor="let currency of currencies" [value]="currency.code">{{
             currency.code
-          }}</mat-option>
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="grid-item-4">
@@ -37,35 +37,29 @@
         <input matInput formControlName="city" [matAutocomplete]="auto" />
         <mat-autocomplete #auto="matAutocomplete">
           @for (city of filteredCities | async; track city) {
-            <mat-option [value]="city">{{city}}</mat-option>
+          <mat-option [value]="city">{{city}}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
-    
-      <button
-        [disabled]="!form.valid"
-        [style.display]="'block'"
-        [style.margin]="'0 auto'"
-        mat-button
-        (click)="onSubmit()"
-        class="grid-item-6"
-      >
+
+      <button [disabled]="!form.valid" [style.display]="'block'" [style.margin]="'0 auto'" mat-button
+        (click)="onSubmit()" class="grid-item-6">
         Submit
       </button>
     </form>
-    
+
     <div class="results">
       <p *ngIf="loading">Loading...</p>
-      <ng-container *ngIf="requests$ | async">
+      <ng-container *ngIf="showResults && (requests$ | async)">
         <h3>
           <strong>Net income: </strong>{{ netIncome?.result | number : "1.2-2" }}
         </h3>
 
-        <app-costs-details [datasets]="costsStructure!.datasets" [labels]="costsStructure!.labels" ></app-costs-details>
+        <app-costs-details [datasets]="costsStructure!.datasets" [labels]="costsStructure!.labels"></app-costs-details>
       </ng-container>
       <h3 *ngIf="error" [style.color]="'red'">{{ error }}</h3>
     </div>
-    
+
     <app-history-table *ngIf="data.length > 0" [data]="data"></app-history-table>
   </main>
 </div>
